@@ -114,7 +114,7 @@ export default function App() {
           padding: '6px 4px',
           display: 'flex',
           alignItems: 'center',
-          justify: 'space-around',
+          justifyContent: 'space-around',
           boxShadow: '0 16px 48px rgba(0,0,0,0.3), inset 0 1.5px 0 rgba(255,255,255,0.4)',
         }}>
           {tabs.map((tab) => {

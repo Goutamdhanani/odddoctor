@@ -1,5 +1,5 @@
 import React from 'react';
-import { motion } from 'framer-motion';
+import { motion, Variants } from 'framer-motion';
 import {
   Calendar, MessageSquare, Activity, Clock, ChevronRight,
   Sparkles, Smile
@@ -15,27 +15,26 @@ interface Props {
   onAppointments: () => void;
 }
 
-const containerVariants = {
+const containerVariants: Variants = {
   hidden: { opacity: 0 },
   show: {
     opacity: 1,
     transition: {
-      staggerChildren: 0.07,
-      delayChildren: 0.05,
+      staggerChildren: 0.06,
+      delayChildren: 0.04,
     },
   },
 };
 
-const itemVariants = {
-  hidden: { opacity: 0, y: 16, scale: 0.97 },
+const itemVariants: Variants = {
+  hidden: { opacity: 0, y: 14 },
   show: {
     opacity: 1,
     y: 0,
-    scale: 1,
     transition: {
-      type: 'spring',
-      stiffness: 320,
-      damping: 25,
+      type: 'spring' as const,
+      stiffness: 300,
+      damping: 26,
     },
   },
 };
@@ -54,23 +53,24 @@ export const HomeScreen: React.FC<Props> = ({ onBook, onChat, onTreatment, onApp
       variants={containerVariants}
       initial="hidden"
       animate="show"
-      style={{ display: 'flex', flexDirection: 'column', gap: 18 }}
+      style={{ display: 'flex', flexDirection: 'column', gap: 16 }}
     >
-      {/* 1. Top Greeting Header */}
+      {/* 1. Top Bar Header */}
       <motion.div variants={itemVariants} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingTop: 4 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
           <img
             src={mockPatient.avatar}
             alt=""
             style={{
-              width: 50, height: 50, borderRadius: 20, objectFit: 'cover',
-              border: 'var(--theme-card-border)',
-              boxShadow: '0 8px 24px rgba(0,0,0,0.2)',
+              width: 48, height: 48, borderRadius: 99, objectFit: 'cover',
+              border: '0.5px solid rgba(255,255,255,0.3)',
+              boxShadow: '0 4px 16px rgba(0,0,0,0.6)',
+              filter: 'grayscale(100%)',
             }}
           />
           <div>
-            <div style={{ fontSize: 11, fontWeight: 700, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.06em' }}>
-              Good Evening ✨
+            <div className="apple-mono-subhead">
+              Good Evening
             </div>
             <div style={{ fontSize: 22, fontWeight: 800, color: 'var(--text-primary)', letterSpacing: '-0.03em' }}>
               {mockPatient.name.split(' ')[0]}
@@ -78,14 +78,14 @@ export const HomeScreen: React.FC<Props> = ({ onBook, onChat, onTreatment, onApp
           </div>
         </div>
 
-        {/* Status Badge */}
+        {/* Status Pill */}
         <span
           style={{
             display: 'inline-flex', alignItems: 'center', gap: 6,
-            padding: '7px 14px', borderRadius: 99,
+            padding: '6px 14px', borderRadius: 99,
             background: 'var(--theme-card-bg)', backdropFilter: 'blur(20px)',
             border: 'var(--theme-card-border)',
-            fontSize: 11, fontWeight: 800, color: 'var(--text-primary)',
+            fontSize: 11, fontWeight: 700, color: 'var(--text-primary)',
             boxShadow: 'var(--theme-card-shadow)',
           }}
         >
@@ -94,18 +94,18 @@ export const HomeScreen: React.FC<Props> = ({ onBook, onChat, onTreatment, onApp
         </span>
       </motion.div>
 
-      {/* 2. Live Activity Appointment Banner */}
+      {/* 2. iOS Live Activity Banner */}
       <motion.div
         variants={itemVariants}
-        whileHover={{ scale: 1.01, y: -2 }}
+        whileHover={{ scale: 1.01 }}
         whileTap={{ scale: 0.98 }}
         onClick={onAppointments}
         className="theme-activity"
         style={{
-          padding: '20px 22px',
+          padding: '16px 20px',
           display: 'flex',
           alignItems: 'center',
-          justify: 'space-between',
+          justifyContent: 'space-between',
           cursor: 'pointer',
         }}
       >
@@ -114,20 +114,16 @@ export const HomeScreen: React.FC<Props> = ({ onBook, onChat, onTreatment, onApp
             <img
               src={next.dentistAvatar}
               alt=""
-              style={{
-                width: 48, height: 48, borderRadius: 18, objectFit: 'cover',
-                border: '1.5px solid rgba(255,255,255,0.4)',
-                boxShadow: '0 6px 18px rgba(0,0,0,0.3)',
-              }}
+              style={{ width: 44, height: 44, borderRadius: 99, objectFit: 'cover', border: '1.5px solid rgba(255,255,255,0.4)', filter: 'grayscale(100%)' }}
             />
-            <span style={{ position: 'absolute', bottom: -2, right: -2, width: 12, height: 12, borderRadius: 99, background: 'var(--accent-1)', border: '2px solid #000000' }} />
+            <span style={{ position: 'absolute', bottom: 0, right: 0, width: 10, height: 10, borderRadius: 99, background: 'var(--accent-1)', border: '2px solid #000000' }} />
           </div>
 
           <div>
             <div style={{ fontSize: 11, fontWeight: 700, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.06em' }}>
               Next Appointment · Tomorrow
             </div>
-            <div style={{ fontSize: 16, fontWeight: 800, color: 'var(--text-primary)', marginTop: 1, letterSpacing: '-0.02em' }}>
+            <div style={{ fontSize: 15, fontWeight: 800, color: 'var(--text-primary)', marginTop: 1, letterSpacing: '-0.01em' }}>
               {next.dentistName.split(',')[0]}
             </div>
             <div style={{ fontSize: 12, color: 'var(--text-secondary)', marginTop: 1, fontWeight: 600 }}>
@@ -136,49 +132,44 @@ export const HomeScreen: React.FC<Props> = ({ onBook, onChat, onTreatment, onApp
           </div>
         </div>
 
-        <div style={{
-          width: 38, height: 38, borderRadius: 16,
-          background: 'var(--btn-primary-bg)',
-          display: 'flex', alignItems: 'center', justifyContent: 'center',
-          boxShadow: '0 6px 16px rgba(0,0,0,0.2)',
-        }}>
-          <ChevronRight size={18} color="var(--btn-primary-text)" />
+        <div style={{ width: 34, height: 34, borderRadius: 99, background: 'rgba(255,255,255,0.14)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <ChevronRight size={18} color="var(--text-primary)" />
         </div>
       </motion.div>
 
-      {/* 3. Health Index Hub with Concentric Rings */}
+      {/* 3. Apple Health Activity Rings Summary Card */}
       <motion.div
         variants={itemVariants}
         className="theme-card"
-        style={{ padding: 22, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}
+        style={{ padding: 20, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}
       >
         <div>
           <div style={{ fontSize: 11, fontWeight: 700, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.06em' }}>
-            Oral Wellness Index
+            Apple Health Integration
           </div>
-          <div style={{ fontSize: 22, fontWeight: 800, color: 'var(--text-primary)', marginTop: 2, letterSpacing: '-0.02em' }}>
-            Excellent ✨
+          <div style={{ fontSize: 20, fontWeight: 800, color: 'var(--text-primary)', marginTop: 2, letterSpacing: '-0.02em' }}>
+            Oral Health Index
           </div>
 
-          <div style={{ marginTop: 14, display: 'flex', flexDirection: 'column', gap: 6 }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 12, fontWeight: 700, color: 'var(--text-primary)' }}>
+          <div style={{ marginTop: 12, display: 'flex', flexDirection: 'column', gap: 6 }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 12, fontWeight: 600, color: 'var(--text-primary)' }}>
               <span style={{ width: 8, height: 8, borderRadius: 99, background: 'var(--accent-1)' }} />
               <span>Overall Score: <strong>88%</strong></span>
             </div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 12, fontWeight: 700, color: 'var(--text-primary)' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 12, fontWeight: 600, color: 'var(--text-primary)' }}>
               <span style={{ width: 8, height: 8, borderRadius: 99, background: 'var(--accent-2)' }} />
               <span>Floss Streak: <strong>24 Days</strong></span>
             </div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 12, fontWeight: 700, color: 'var(--text-primary)' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 12, fontWeight: 600, color: 'var(--text-primary)' }}>
               <span style={{ width: 8, height: 8, borderRadius: 99, background: 'var(--accent-3)' }} />
               <span>Aligner Wear: <strong>18.5/22 hrs</strong></span>
             </div>
           </div>
         </div>
 
-        {/* Concentric Rings */}
-        <div style={{ position: 'relative', width: 104, height: 104 }}>
-          <svg width="104" height="104" viewBox="0 0 100 100" style={{ transform: 'rotate(-90deg)' }}>
+        {/* Concentric Apple Health Rings */}
+        <div style={{ position: 'relative', width: 100, height: 100 }}>
+          <svg width="100" height="100" viewBox="0 0 100 100" style={{ transform: 'rotate(-90deg)' }}>
             {/* Outer Ring */}
             <circle cx="50" cy="50" r={r1} fill="none" stroke="rgba(255,255,255,0.12)" strokeWidth="7" />
             <motion.circle
@@ -187,7 +178,7 @@ export const HomeScreen: React.FC<Props> = ({ onBook, onChat, onTreatment, onApp
               strokeDasharray={c1}
               initial={{ strokeDashoffset: c1 }}
               animate={{ strokeDashoffset: off1 }}
-              transition={{ duration: 1.3, ease: [0.2, 0.8, 0.2, 1] }}
+              transition={{ duration: 1.2, ease: [0.2, 0.8, 0.2, 1] }}
             />
 
             {/* Middle Ring */}
@@ -198,7 +189,7 @@ export const HomeScreen: React.FC<Props> = ({ onBook, onChat, onTreatment, onApp
               strokeDasharray={c2}
               initial={{ strokeDashoffset: c2 }}
               animate={{ strokeDashoffset: off2 }}
-              transition={{ duration: 1.3, delay: 0.1, ease: [0.2, 0.8, 0.2, 1] }}
+              transition={{ duration: 1.2, delay: 0.1, ease: [0.2, 0.8, 0.2, 1] }}
             />
 
             {/* Inner Ring */}
@@ -209,18 +200,18 @@ export const HomeScreen: React.FC<Props> = ({ onBook, onChat, onTreatment, onApp
               strokeDasharray={c3}
               initial={{ strokeDashoffset: c3 }}
               animate={{ strokeDashoffset: off3 }}
-              transition={{ duration: 1.3, delay: 0.2, ease: [0.2, 0.8, 0.2, 1] }}
+              transition={{ duration: 1.2, delay: 0.2, ease: [0.2, 0.8, 0.2, 1] }}
             />
           </svg>
         </div>
       </motion.div>
 
-      {/* 4. 3D Interactive Tooth Mapping Canvas */}
+      {/* 4. 3D Interactive Tooth Mapping Module */}
       <motion.div variants={itemVariants}>
         <InteractiveTooth3D />
       </motion.div>
 
-      {/* 5. 4 Glass Action Widgets */}
+      {/* 5. iOS Widget Grid (2x2) */}
       <motion.div variants={itemVariants} style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
         {[
           {
@@ -252,33 +243,28 @@ export const HomeScreen: React.FC<Props> = ({ onBook, onChat, onTreatment, onApp
           return (
             <motion.div
               key={w.title}
-              whileHover={{ y: -4, scale: 1.02 }}
+              whileHover={{ y: -3 }}
               whileTap={{ scale: 0.96 }}
               onClick={w.onClick}
               className="theme-card theme-card-interactive"
               style={{
-                padding: 18,
+                padding: 16,
                 display: 'flex',
                 flexDirection: 'column',
-                justify: 'space-between',
-                minHeight: 116,
+                justifyContent: 'space-between',
+                minHeight: 110,
                 cursor: 'pointer',
               }}
             >
-              <div style={{
-                width: 42, height: 42, borderRadius: 16,
-                background: 'var(--btn-primary-bg)',
-                display: 'flex', alignItems: 'center', justifyContent: 'center',
-                boxShadow: '0 6px 18px rgba(0,0,0,0.15)',
-              }}>
-                <Icon size={20} color="var(--btn-primary-text)" strokeWidth={2} />
+              <div style={{ width: 38, height: 38, borderRadius: 14, background: 'var(--btn-primary-bg)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <Icon size={20} color="var(--btn-primary-text)" strokeWidth={1.8} />
               </div>
 
               <div>
                 <div style={{ fontSize: 15, fontWeight: 800, color: 'var(--text-primary)', letterSpacing: '-0.02em' }}>
                   {w.title}
                 </div>
-                <div style={{ fontSize: 11, fontWeight: 700, color: 'var(--text-secondary)', marginTop: 2 }}>
+                <div style={{ fontSize: 11, fontWeight: 600, color: 'var(--text-secondary)', marginTop: 2 }}>
                   {w.sub}
                 </div>
               </div>
@@ -287,34 +273,28 @@ export const HomeScreen: React.FC<Props> = ({ onBook, onChat, onTreatment, onApp
         })}
       </motion.div>
 
-      {/* 6. Invisalign Stage 3 Aligner Card */}
+      {/* 6. Invisalign Stage 3 Card */}
       <motion.div
         variants={itemVariants}
         className="theme-card"
-        style={{ padding: 20, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}
+        style={{ padding: 18, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}
       >
         <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-          <div style={{
-            width: 46, height: 46, borderRadius: 18,
-            background: 'var(--btn-primary-bg)',
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
-            boxShadow: '0 6px 20px rgba(0,0,0,0.2)',
-          }}>
-            <Smile size={22} color="var(--btn-primary-text)" strokeWidth={2} />
+          <div style={{ width: 44, height: 44, borderRadius: 16, background: 'var(--btn-primary-bg)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <Smile size={22} color="var(--btn-primary-text)" strokeWidth={1.8} />
           </div>
           <div>
-            <div style={{ fontSize: 15, fontWeight: 800, color: 'var(--text-primary)' }}>Invisalign Stage 3</div>
-            <div style={{ fontSize: 12, color: 'var(--text-secondary)', marginTop: 1, fontWeight: 600 }}>Upper incisor rotation · 4 days left</div>
+            <div style={{ fontSize: 14, fontWeight: 800, color: 'var(--text-primary)' }}>Invisalign Stage 3</div>
+            <div style={{ fontSize: 12, color: 'var(--text-secondary)', marginTop: 1 }}>Upper incisor rotation · 4 days left</div>
           </div>
         </div>
 
         <button
           onClick={onTreatment}
           style={{
-            padding: '7px 16px', borderRadius: 99,
-            background: 'var(--btn-primary-bg)',
-            border: 'none', fontSize: 11, fontWeight: 800, color: 'var(--btn-primary-text)', cursor: 'pointer',
-            boxShadow: '0 4px 14px rgba(0,0,0,0.2)',
+            padding: '6px 14px', borderRadius: 99,
+            background: 'var(--btn-primary-bg)', border: 'none',
+            fontSize: 11, fontWeight: 800, color: 'var(--btn-primary-text)', cursor: 'pointer',
           }}
         >
           Track
