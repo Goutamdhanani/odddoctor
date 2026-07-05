@@ -1,0 +1,252 @@
+@import "tailwindcss";
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+:root {
+  --apple-font: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Plus Jakarta Sans", "Inter", sans-serif;
+  
+  /* Shared Layout & Border Radius */
+  --r-widget: 28px;
+  --r-card: 22px;
+  --r-pill: 999px;
+  
+  /* =================== DAY MODE: DREAMY HOLOGRAPHIC GLASS (Image Match) =================== */
+  --theme-shell-bg: linear-gradient(135deg, #FDECF2 0%, #E9E4FC 35%, #E0F2FE 70%, #FFF4E5 100%);
+  --theme-card-bg: linear-gradient(135deg, rgba(255, 255, 255, 0.78) 0%, rgba(243, 235, 255, 0.68) 50%, rgba(224, 242, 254, 0.72) 100%);
+  --theme-card-active: linear-gradient(135deg, rgba(255, 255, 255, 0.92) 0%, rgba(235, 220, 255, 0.82) 100%);
+  --theme-card-border: 1.5px solid rgba(255, 255, 255, 0.95);
+  --theme-card-shadow: 0 12px 36px rgba(190, 160, 240, 0.25), inset 0 1.5px 0 rgba(255, 255, 255, 1);
+  --theme-spotlight: radial-gradient(circle, rgba(255, 180, 210, 0.45), transparent 70%);
+  
+  --text-primary: #2A1B40;
+  --text-secondary: #705B8C;
+  --text-muted: #A08FB8;
+  
+  --accent-1: #FF85B3; /* Pink */
+  --accent-2: #9A7BFF; /* Purple */
+  --accent-3: #38BDF8; /* Cyan */
+  --accent-4: #FFB380; /* Peach */
+  
+  --btn-primary-bg: linear-gradient(135deg, #FFA6C9 0%, #BBA2FF 50%, #7DD3FC 100%);
+  --btn-primary-text: #1F1035;
+  --btn-primary-border: 1.5px solid rgba(255, 255, 255, 0.95);
+  
+  --nav-bg: rgba(255, 255, 255, 0.75);
+  --nav-border: 1.5px solid rgba(255, 255, 255, 0.95);
+  --nav-active-bg: linear-gradient(135deg, #FFA6C9 0%, #BBA2FF 50%, #7DD3FC 100%);
+  --nav-active-text: #1F1035;
+  --nav-icon-inactive: #705B8C;
+  
+  --activity-bg: linear-gradient(135deg, rgba(255,255,255,0.85) 0%, rgba(240,225,255,0.75) 50%, rgba(210,240,255,0.8) 100%);
+  --activity-text: #2A1B40;
+}
+
+/* =================== NIGHT MODE: OLD APPLE PURE BLACK & WHITE =================== */
+[data-theme="night"] {
+  --theme-shell-bg: #000000;
+  --theme-card-bg: rgba(255, 255, 255, 0.06);
+  --theme-card-active: rgba(255, 255, 255, 0.12);
+  --theme-card-border: 0.5px solid rgba(255, 255, 255, 0.18);
+  --theme-card-shadow: 0 16px 40px -10px rgba(0, 0, 0, 0.9);
+  --theme-spotlight: radial-gradient(circle, rgba(255, 255, 255, 0.08), transparent 70%);
+  
+  --text-primary: #FFFFFF;
+  --text-secondary: #A1A1A6;
+  --text-muted: #636366;
+  
+  --accent-1: #FFFFFF;
+  --accent-2: #A1A1A6;
+  --accent-3: #636366;
+  --accent-4: #FFFFFF;
+  
+  --btn-primary-bg: #FFFFFF;
+  --btn-primary-text: #000000;
+  --btn-primary-border: none;
+  
+  --nav-bg: rgba(18, 18, 20, 0.92);
+  --nav-border: 0.5px solid rgba(255, 255, 255, 0.22);
+  --nav-active-bg: #FFFFFF;
+  --nav-active-text: #000000;
+  --nav-icon-inactive: #8E8E93;
+  
+  --activity-bg: rgba(18, 18, 20, 0.95);
+  --activity-text: #FFFFFF;
+}
+
+html, body {
+  font-family: var(--apple-font);
+  background: #000000;
+  color: var(--text-primary);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  letter-spacing: -0.015em;
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+
+/* =================== APP SHELL =================== */
+.app-shell {
+  position: relative;
+  max-width: 420px;
+  margin: 0 auto;
+  min-height: 100vh;
+  overflow: hidden;
+  background: var(--theme-shell-bg);
+  box-shadow: 0 20px 80px rgba(0, 0, 0, 0.5);
+  transition: background 0.4s ease;
+}
+
+/* Ambient Spotlight */
+.theme-spotlight {
+  position: absolute;
+  top: -100px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 360px;
+  height: 360px;
+  border-radius: 50%;
+  background: var(--theme-spotlight);
+  filter: blur(75px);
+  pointer-events: none;
+}
+
+/* =================== THEME GLASS CARDS =================== */
+.theme-card {
+  background: var(--theme-card-bg);
+  backdrop-filter: blur(35px) saturate(180%);
+  -webkit-backdrop-filter: blur(35px) saturate(180%);
+  border: var(--theme-card-border);
+  border-radius: var(--r-widget);
+  box-shadow: var(--theme-card-shadow);
+  color: var(--text-primary);
+  transition: transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.25s ease, background 0.25s ease, border-color 0.25s ease;
+}
+
+.theme-card-interactive:active {
+  transform: scale(0.975);
+  background: var(--theme-card-active);
+}
+
+/* Dynamic Island / Activity Card */
+.theme-activity {
+  background: var(--activity-bg);
+  backdrop-filter: blur(35px);
+  -webkit-backdrop-filter: blur(35px);
+  border: var(--theme-card-border);
+  border-radius: 34px;
+  color: var(--activity-text);
+  box-shadow: var(--theme-card-shadow);
+}
+
+/* =================== DAY / NIGHT CAPSULE SWITCH (Exact image match) =================== */
+.day-night-toggle {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 5px;
+  border-radius: 99px;
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(25px);
+  border: 1.5px solid rgba(255, 255, 255, 0.95);
+  box-shadow: 0 8px 24px rgba(180, 150, 240, 0.25), inset 0 1px 0 rgba(255, 255, 255, 1);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+[data-theme="night"] .day-night-toggle {
+  background: rgba(20, 20, 24, 0.85);
+  border: 0.5px solid rgba(255, 255, 255, 0.22);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.8), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+.toggle-pill {
+  padding: 6px 14px;
+  border-radius: 99px;
+  font-size: 11px;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  transition: all 0.25s ease;
+  color: #705B8C;
+}
+
+[data-theme="night"] .toggle-pill {
+  color: #8E8E93;
+}
+
+.toggle-pill.active {
+  background: linear-gradient(135deg, #FFA6C9 0%, #BBA2FF 50%, #7DD3FC 100%);
+  color: #1F1035;
+  box-shadow: 0 4px 14px rgba(187, 162, 255, 0.4);
+}
+
+[data-theme="night"] .toggle-pill.active {
+  background: #FFFFFF;
+  color: #000000;
+  box-shadow: 0 4px 16px rgba(255, 255, 255, 0.25);
+}
+
+/* =================== BUTTONS =================== */
+.theme-btn-primary {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  min-height: 54px;
+  padding: 14px 24px;
+  border: var(--btn-primary-border);
+  border-radius: 24px;
+  background: var(--btn-primary-bg);
+  color: var(--btn-primary-text);
+  font-family: var(--apple-font);
+  font-size: 15px;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  cursor: pointer;
+  box-shadow: 0 10px 32px rgba(0, 0, 0, 0.15);
+  transition: transform 0.2s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.2s ease;
+}
+
+.theme-btn-primary:active {
+  transform: scale(0.97);
+  opacity: 0.92;
+}
+
+.theme-btn-secondary {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  min-height: 52px;
+  padding: 12px 20px;
+  border: var(--theme-card-border);
+  border-radius: 24px;
+  background: var(--theme-card-bg);
+  backdrop-filter: blur(20px);
+  color: var(--text-primary);
+  font-family: var(--apple-font);
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: var(--theme-card-shadow);
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.theme-btn-secondary:active {
+  transform: scale(0.97);
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 0; }
+
+.safe-bottom {
+  padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 104px);
+}
